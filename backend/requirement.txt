@@ -1,0 +1,9 @@
+1. A MySQL database to be created with name "user" containing a table with name "users".
+2. The table "users" is to be defined with columns as follows: 
+    id INT AUTO_INCREMENT PRIMARY KEY
+    username varchar(50) UNIQUE NOT NULL [size variable, recommended above 15]
+    email varchar(100) UNIQUE NOT NULL
+    password varchar(512) NOT NULL [large size reqd due to hashing]
+3. Copy the contents of ".env.example", enter your MySQL password and username, and store in a file named ".env" at the root of the directory
+"Bit-Techies".
+4. To execute the program, run "login.py" in terminal and open "index-backend.html" in a web browser.
