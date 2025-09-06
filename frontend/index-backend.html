@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoFinds - Sustainable Second-Hand Marketplace</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Loading EcoFinds...</p>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page hidden">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-leaf auth-logo"></i>
+                    <h2>Welcome to EcoFinds</h2>
+                    <p>Sign in to your account</p>
+                </div>
+                <form id="login-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="login-username">Username or Email</label>
+                        <input type="text" id="login-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <div class="password-input">
+                            <input type="password" id="login-password" name="password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('login-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="login-error" class="error-message hidden"></div>
+                    <button type="submit" class="auth-button">Sign in</button>
+                    <p class="auth-switch">
+                        Don't have an account? <a href="#" onclick="showPage('signup-page')">Sign up</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup-page" class="page hidden">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <i class="fas fa-leaf auth-logo"></i>
+                    <h2>Join EcoFinds</h2>
+                    <p>Create your account to start buying and selling</p>
+                </div>
+                <form id="signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="signup-username">Username</label>
+                        <input type="text" id="signup-username" name="username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email address</label>
+                        <input type="email" id="signup-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <div class="password-input">
+                            <input type="password" id="signup-password" name="password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('signup-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-confirm-password">Confirm Password</label>
+                        <div class="password-input">
+                            <input type="password" id="signup-confirm-password" name="confirmPassword" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('signup-confirm-password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="signup-error" class="error-message hidden"></div>
+                    <button type="submit" class="auth-button">Create account</button>
+                    <p class="auth-switch">
+                        Already have an account? <a href="#" onclick="showPage('login-page')">Sign in</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App Container -->
+    <div id="app-container" class="hidden">
+        <!-- Sidebar -->
+        <div id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-leaf"></i>
+                <span>EcoFinds</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" onclick="showPage('feed-page')" class="nav-item active" data-page="feed-page">
+                    <i class="fas fa-home"></i>
+                    <span>Feed</span>
+                </a>
+                <a href="#" onclick="showPage('my-listings-page')" class="nav-item" data-page="my-listings-page">
+                    <i class="fas fa-box"></i>
+                    <span>My Listings</span>
+                </a>
+                <a href="#" onclick="showPage('add-product-page')" class="nav-item" data-page="add-product-page">
+                    <i class="fas fa-plus"></i>
+                    <span>Add Product</span>
+                </a>
+                <a href="#" onclick="showPage('cart-page')" class="nav-item" data-page="cart-page">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                    <span id="cart-count" class="cart-count hidden">0</span>
+                </a>
+                <a href="#" onclick="showPage('purchases-page')" class="nav-item" data-page="purchases-page">
+                    <i class="fas fa-history"></i>
+                    <span>Purchases</span>
+                </a>
+                <a href="#" onclick="showPage('profile-page')" class="nav-item" data-page="profile-page">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <i class="fas fa-user-circle"></i>
+                    <div>
+                        <div id="user-username">Username</div>
+                        <div id="user-email">user@example.com</div>
+                    </div>
+                </div>
+                <button onclick="logout()" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sign out
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Mobile Header -->
+            <div class="mobile-header">
+                <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 id="page-title">Feed</h1>
+                <button class="mobile-cart-toggle" onclick="showPage('cart-page')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="mobile-cart-count" class="cart-count hidden">0</span>
+                </button>
+            </div>
+
+            <!-- Feed Page -->
+            <div id="feed-page" class="page">
+                <div class="page-header">
+                    <h1>Discover EcoFinds</h1>
+                    <p>Find amazing second-hand items and give them a new life</p>
+                </div>
+                <div class="search-filters">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Search for items...">
+                    </div>
+                    <div class="category-filters">
+                        <button class="filter-btn active" data-category="all">All</button>
+                        <button class="filter-btn" data-category="Electronics">Electronics</button>
+                        <button class="filter-btn" data-category="Clothing">Clothing</button>
+                        <button class="filter-btn" data-category="Furniture">Furniture</button>
+                        <button class="filter-btn" data-category="Books">Books</button>
+                        <button class="filter-btn" data-category="Sports">Sports</button>
+                        <button class="filter-btn" data-category="Home & Garden">Home & Garden</button>
+                        <button class="filter-btn" data-category="Toys">Toys</button>
+                        <button class="filter-btn" data-category="Automotive">Automotive</button>
+                    </div>
+                </div>
+                <div id="products-grid" class="products-grid">
+                    <!-- Products will be loaded here -->
+                </div>
+            </div>
+
+            <!-- My Listings Page -->
+            <div id="my-listings-page" class="page hidden">
+                <div class="page-header">
+                    <h1>My Listings</h1>
+                    <p>Manage your product listings</p>
+                    <button class="add-product-btn" onclick="showPage('add-product-page')">
+                        <i class="fas fa-plus"></i>
+                        Add Product
+                    </button>
+                </div>
+                <div id="my-products-grid" class="products-grid">
+                    <!-- User's products will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Add Product Page -->
+            <div id="add-product-page" class="page hidden">
+                <div class="page-header">
+                    <h1>Add New Product</h1>
+                    <p>List an item to sell on EcoFinds</p>
+                </div>
+                <form id="add-product-form" class="product-form">
+                    <div class="form-group">
+                        <label for="product-title">Product Title *</label>
+                        <input type="text" id="product-title" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description *</label>
+                        <textarea id="product-description" name="description" rows="4" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-category">Category *</label>
+                            <select id="product-category" name="category" required>
+                                <option value="">Select a category</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Clothing">Clothing</option>
+                                <option value="Furniture">Furniture</option>
+                                <option value="Books">Books</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Home & Garden">Home & Garden</option>
+                                <option value="Toys">Toys</option>
+                                <option value="Automotive">Automotive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-price">Price ($) *</label>
+                            <input type="number" id="product-price" name="price" step="0.01" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Image URL (Optional)</label>
+                        <input type="url" id="product-image" name="imageUrl" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div id="add-product-error" class="error-message hidden"></div>
+                    <div class="form-actions">
+                        <button type="submit" class="primary-button">Create Listing</button>
+                        <button type="button" class="secondary-button" onclick="showPage('my-listings-page')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Product Detail Page -->
+            <div id="product-detail-page" class="page hidden">
+                <div class="product-detail">
+                    <button class="back-button" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back
+                    </button>
+                    <div class="product-detail-content">
+                        <div class="product-image-container">
+                            <img id="detail-product-image" src="" alt="Product image">
+                        </div>
+                        <div class="product-info">
+                            <h1 id="detail-product-title"></h1>
+                            <div class="product-meta">
+                                <span id="detail-product-seller"></span>
+                                <span id="detail-product-category"></span>
+                            </div>
+                            <div class="product-price" id="detail-product-price"></div>
+                            <div class="product-description">
+                                <h3>Description</h3>
+                                <p id="detail-product-description"></p>
+                            </div>
+                            <div class="product-actions">
+                                <button class="add-to-cart-btn" onclick="addToCart()">
+                                    <i class="fas fa-shopping-cart"></i>
+                                    Add to Cart
+                                </button>
+                                <button class="favorite-btn">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Page -->
+            <div id="cart-page" class="page hidden">
+                <div class="page-header">
+                    <button class="back-button" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back
+                    </button>
+                    <h1>Shopping Cart</h1>
+                    <p id="cart-item-count">0 items in your cart</p>
+                </div>
+                <div class="cart-content">
+                    <div class="cart-items" id="cart-items">
+                        <!-- Cart items will be loaded here -->
+                    </div>
+                    <div class="cart-summary">
+                        <div class="summary-item">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Shipping</span>
+                            <span>Free</span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>Total</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+                        <button class="checkout-button" onclick="checkout()">
+                            Checkout
+                        </button>
+                        <p class="checkout-note">This is a demo checkout. No real payment will be processed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Purchases Page -->
+            <div id="purchases-page" class="page hidden">
+                <div class="page-header">
+                    <button class="back-button" onclick="goBack()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back
+                    </button>
+                    <h1>Previous Purchases</h1>
+                    <p>Your purchase history</p>
+                </div>
+                <div id="purchases-list" class="purchases-list">
+                    <!-- Purchases will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Profile Page -->
+            <div id="profile-page" class="page hidden">
+                <div class="page-header">
+                    <h1>Profile Settings</h1>
+                    <p>Manage your account information</p>
+                </div>
+                <div class="profile-content">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="profile-details">
+                            <h2 id="profile-username"></h2>
+                            <p id="profile-email"></p>
+                        </div>
+                    </div>
+                    <form id="profile-form" class="profile-form">
+                        <div class="form-group">
+                            <label for="profile-username-input">Username</label>
+                            <input type="text" id="profile-username-input" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profile-email-input">Email</label>
+                            <input type="email" id="profile-email-input" name="email" required>
+                        </div>
+                        <div id="profile-error" class="error-message hidden"></div>
+                        <div class="form-actions">
+                            <button type="submit" class="primary-button">Save Changes</button>
+                            <button type="button" class="logout-button" onclick="logout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Sign Out
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation -->
+        <div class="mobile-nav">
+            <a href="#" onclick="showPage('feed-page')" class="mobile-nav-item" data-page="feed-page">
+                <i class="fas fa-home"></i>
+                <span>Feed</span>
+            </a>
+            <a href="#" onclick="showPage('my-listings-page')" class="mobile-nav-item" data-page="my-listings-page">
+                <i class="fas fa-box"></i>
+                <span>My Listings</span>
+            </a>
+            <a href="#" onclick="showPage('add-product-page')" class="mobile-nav-item" data-page="add-product-page">
+                <i class="fas fa-plus"></i>
+                <span>Add Product</span>
+            </a>
+            <a href="#" onclick="showPage('cart-page')" class="mobile-nav-item" data-page="cart-page">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+                <span id="mobile-nav-cart-count" class="cart-count hidden">0</span>
+            </a>
+            <a href="#" onclick="showPage('purchases-page')" class="mobile-nav-item" data-page="purchases-page">
+                <i class="fas fa-history"></i>
+                <span>Purchases</span>
+            </a>
+            <a href="#" onclick="showPage('profile-page')" class="mobile-nav-item" data-page="profile-page">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+
+    <script src="script-backend.js"></script>
+</body>
+</html>

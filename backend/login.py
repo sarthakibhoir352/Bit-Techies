@@ -5,8 +5,12 @@ import os
 import mysql.connector
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from flask_cors import CORS
+
 app = Flask(__name__)
 app.secret_key = "secret_key"
+
+CORS(app, supports_credentials=True)
 
 DB_CONFIG = {
     "host": "localhost",
@@ -49,7 +53,7 @@ def login():
 
     if user and check_password_hash(user['password'], password):
         session['username'] = username
-        return jsonify({"status": "success", "message": "Login successful!"})
+        return jsonify({"status": "success", "message": "Login successful!", "username": user['username'], "email": user['email']})
     else:
         return jsonify({"status": "error", "message": "Invalid credentials"})
 
