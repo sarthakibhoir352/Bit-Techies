@@ -23,6 +23,8 @@ cursor = db.cursor(dictionary=True)
 
 
 # ---------------- Registration ----------------
+
+
 @app.route('/register', methods=['POST'])
 def register():
     data = request.json
@@ -32,11 +34,16 @@ def register():
 
     try:
         cursor.execute(
-            "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
+            "INSERT INTO users1 (username, email, password) VALUES (%s, %s, %s)",
             (username, email, password)
         )
         db.commit()
-        return jsonify({"status": "success", "message": "User registered!"})
+        return jsonify({
+            "status": "success",
+            "message": "User registered!",
+            "username": username,
+            "email": email  # <-- include email here
+        })
     except mysql.connector.Error as err:
         return jsonify({"status": "error", "message": str(err)})
 
@@ -48,9 +55,9 @@ def login():
     username = data['username']
     password = data['password']
 
-    cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+    cursor.execute("SELECT * FROM users1 WHERE username = %s", (username,))
     user = cursor.fetchone()
-    cursor.execute("SELECT * FROM users WHERE email = %s", (username,))
+    cursor.execute("SELECT * FROM users1 WHERE email = %s", (username,))
     user1 = cursor.fetchone()
 
     if user or user1:
