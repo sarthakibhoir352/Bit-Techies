@@ -1,7 +1,7 @@
 <div align="center">
 🌿 EcoFinds
   
-                 Sustainable Second-Hand Marketplace
+- Sustainable Second-Hand Marketplace
 🚀 A web application for buying and selling second-hand products sustainably.
 (Front-end and back-end fully integrated — login, listings, cart, and profile management)
 
