@@ -50,12 +50,26 @@ def login():
 
     cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
     user = cursor.fetchone()
+    cursor.execute("SELECT * FROM users WHERE email = %s", (username,))
+    user1 = cursor.fetchone()
 
-    if user and check_password_hash(user['password'], password):
-        session['username'] = username
-        return jsonify({"status": "success", "message": "Login successful!", "username": user['username'], "email": user['email']})
+    if user or user1:
+        if user and check_password_hash(user['password'], password): 
+            session['username'] = username
+            return jsonify({"status": "success", "message": "Login successful!", "username": user['username'], "email": user['email']})
+        elif user1 and check_password_hash(user1['password'], password): 
+            session['username'] = username
+            return jsonify({"status": "success", "message": "Login successful!", "email": user1['username'], "username": user1['email']})# email and username swapped
+        else:
+            return jsonify({"status": "error", "message": "Invalid credentials"})
     else:
         return jsonify({"status": "error", "message": "Invalid credentials"})
+
+    # if user and check_password_hash(user['password'], password):
+    #     session['username'] = username
+    #     return jsonify({"status": "success", "message": "Login successful!", "username": user['username'], "email": user['email']})
+    # else:
+    #     return jsonify({"status": "error", "message": "Invalid credentials"})
 
 
 # ---------------- Dashboard (protected) ----------------
