@@ -7,7 +7,7 @@
 
 </div>
 
-✨ Features
+✨ Features:
 
 🔐 Login & Registration (Flask + MySQL backend, password hashing)
 
@@ -26,7 +26,7 @@
 📱 Mobile-Responsive Design with sidebar & bottom navigation
 
 
-🚀 Getting Started
+🚀 Getting Started:
 
 Clone the repository:
 ```bash
@@ -44,14 +44,14 @@ CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(512) NOT NULL
 );
 ```
 Run the Flask server:
 ```bash
-python app.py
+python login.py
 ```
-🌍 Deployment
+🌍 Deployment:
 
 This project can be deployed on any Flask-supported hosting service or locally with MySQL:
 
@@ -61,7 +61,7 @@ Setup a hosting service (Heroku, PythonAnywhere, etc.)
 
 Configure environment variables and database connection
 
-📦 ecofinds
+📦 ecofinds:
 ```bash
  ┣ 📜 index.html            # Main front-end page
  ┣ 📜 styles.css            # Styling
@@ -72,7 +72,7 @@ Configure environment variables and database connection
  ┗ 📜 README.md             # Project documentation
  ```
 
-🛠️ Tech Stack
+🛠️ Tech Stack:
 Front-End: HTML, CSS, JavaScript, Font Awesome
 
 Back-End: Python, Flask, MySQL
@@ -83,7 +83,7 @@ Local Storage: MySQL Database
 
 CORS: Enabled for front-end/back-end communication
 
-🙌 Contribution
+🙌 Contribution:
 
 Contributions are welcome!
 
@@ -97,7 +97,7 @@ Open a Pull Request
 
 Request
 
-📜 License
+📜 License:
 
 This project is open-source under the MIT License.
 
